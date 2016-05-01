@@ -1,8 +1,10 @@
-package menjacnica;
+package menjacnica.interfejs;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
+
+import menjacnica.Valuta;
 
 
 public interface MenjacnicaInterface {
