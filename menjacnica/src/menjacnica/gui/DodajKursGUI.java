@@ -185,21 +185,19 @@ public class DodajKursGUI extends JFrame {
 	
 	private void unesiKurs() {
 		try {
-			Valuta valuta = new Valuta();
+			String naziv = textFieldNaziv.getText();
+			String skraceniNaziv = textFieldSkraceniNaziv.getText();
+			String sifra = spinnerSifra.getValue().toString();
+			String prodajni = textFieldProdajniKurs.getText();
+			String kupovni = textFieldKupovniKurs.getText();
+			String srednji = textFieldSrednjiKurs.getText();
 
-			// Punjenje podataka o valuti
-			valuta.setNaziv(textFieldNaziv.getText());
-			valuta.setSkraceniNaziv(textFieldSkraceniNaziv.getText());
-			valuta.setSifra((Integer)(spinnerSifra.getValue()));
-			valuta.setProdajni(Double.parseDouble(textFieldProdajniKurs.getText()));
-			valuta.setKupovni(Double.parseDouble(textFieldKupovniKurs.getText()));
-			valuta.setSrednji(Double.parseDouble(textFieldSrednjiKurs.getText()));
 			
 			// Dodavanje valute u kursnu listu
-			glavniProzor.sistem.dodajValutu(valuta);
+			GUIKontroler.dodajValutu(naziv, skraceniNaziv, sifra, prodajni, kupovni, srednji);
 
 			// Osvezavanje glavnog prozora
-			glavniProzor.prikaziSveValute();
+			GUIKontroler.prikaziSveValute();
 			
 			//Zatvaranje DodajValutuGUI prozora
 			dispose();
