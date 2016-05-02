@@ -82,7 +82,7 @@ public class GUIKontroler {
 	}
 
 	public static void prikaziDodajKursGUI() {
-		DodajKursGUI prozor = new DodajKursGUI(mainForm);
+		DodajKursGUI prozor = new DodajKursGUI();
 		prozor.setLocationRelativeTo(mainForm.getContentPane());
 		prozor.setVisible(true);
 	}
@@ -130,6 +130,17 @@ public class GUIKontroler {
 		return menjacnica.izvrsiTransakciju(valuta, selected, Double.parseDouble(parseDouble));
 	}
 
+	/*
+	 * Deo kontrolera za formu ObrisiKursGUI
+	 */
+
+	public static void obrisiValutu(Valuta valuta) throws Exception {
+		menjacnica.obrisiValutu(valuta);		
+	}
+	
+	/*
+	 * Ostatak
+	 */
 	public static double vratiProdajni(Valuta valuta){
 		return valuta.getProdajni();
 	}
@@ -154,13 +165,9 @@ public class GUIKontroler {
 		return valuta.getSifra();
 	}
 	
-	/*
-	 * Deo kontrolera za formu ObrisiKursGUI
-	 */
-
-	public static void obrisiValutu(Valuta valuta) throws Exception {
-		menjacnica.obrisiValutu(valuta);
-		
+	public static Valuta vratiValutu(int index){
+		MenjacnicaTableModel model = new MenjacnicaTableModel();
+		return model.vratiValutu(index);
 	}
 
 	
