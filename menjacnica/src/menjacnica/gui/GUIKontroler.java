@@ -87,14 +87,14 @@ public class GUIKontroler {
 		prozor.setVisible(true);
 	}
 	
-	public static void prikaziObrisiKursGUI(MenjacnicaTableModel model, int row) {
-		ObrisiKursGUI prozor = new ObrisiKursGUI(model.vratiValutu(row));
+	public static void prikaziObrisiKursGUI(int row) {
+		ObrisiKursGUI prozor = new ObrisiKursGUI(row);
 		prozor.setLocationRelativeTo(mainForm.getContentPane());
 		prozor.setVisible(true);
 	}
 	
-	public static void prikaziIzvrsiZamenuGUI(MenjacnicaTableModel model, int row) {
-		IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(model.vratiValutu(row));
+	public static void prikaziIzvrsiZamenuGUI(int row) {
+		IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(row);
 		prozor.setLocationRelativeTo(mainForm.getContentPane());
 		prozor.setVisible(true);
 	}
@@ -117,6 +117,8 @@ public class GUIKontroler {
 		valuta.setKupovni(Double.parseDouble(kupovni));
 		valuta.setSrednji(Double.parseDouble(srednji));
 		menjacnica.dodajValutu(valuta);
+		mainForm.prikaziSveValute();
+		
 	}
 
 
@@ -126,47 +128,55 @@ public class GUIKontroler {
 	 * Deo kontrolera za formu IzvrsiIzmenuGUI
 	 */
 	
-	public static double izvrsiTransakciju(Valuta valuta, boolean selected, String parseDouble) {		
-		return menjacnica.izvrsiTransakciju(valuta, selected, Double.parseDouble(parseDouble));
+	public static double izvrsiTransakciju(int valuta, boolean selected, String parseDouble) {
+		Valuta v = vratiValutu(valuta);
+		return menjacnica.izvrsiTransakciju(v, selected, Double.parseDouble(parseDouble));
 	}
 
 	/*
 	 * Deo kontrolera za formu ObrisiKursGUI
 	 */
 
-	public static void obrisiValutu(Valuta valuta) throws Exception {
-		menjacnica.obrisiValutu(valuta);		
+	public static void obrisiValutu(int valuta) throws Exception {
+		Valuta v = vratiValutu(valuta);
+		menjacnica.obrisiValutu(v);		
 	}
 	
 	/*
 	 * Ostatak
 	 */
-	public static double vratiProdajni(Valuta valuta){
-		return valuta.getProdajni();
+	public static double vratiProdajni(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getProdajni();
 	}
 	
-	public static double vratiKupovni(Valuta valuta){
-		return valuta.getKupovni();
+	public static double vratiKupovni(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getKupovni();
 	}
 	
-	public static double vratiSrednji(Valuta valuta){
-		return valuta.getSrednji();
+	public static double vratiSrednji(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getSrednji();
 	}
 	
-	public static String vratiSkraceni(Valuta valuta){
-		return valuta.getSkraceniNaziv();
+	public static String vratiSkraceni(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getSkraceniNaziv();
 	}	
 	
-	public static String vratiNaziv(Valuta valuta){
-		return valuta.getNaziv();
+	public static String vratiNaziv(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getNaziv();
 	}
 	
-	public static int vratiSifru(Valuta valuta){
-		return valuta.getSifra();
+	public static int vratiSifru(int valuta){
+		Valuta v = vratiValutu(valuta);
+		return v.getSifra();
 	}
 	
 	public static Valuta vratiValutu(int index){
-		MenjacnicaTableModel model = new MenjacnicaTableModel();
+		MenjacnicaTableModel model = (MenjacnicaTableModel)mainForm.getTable().getModel();
 		return model.vratiValutu(index);
 	}
 

@@ -251,25 +251,24 @@ public class MenjacnicaGUI extends JFrame {
 	
 	private void prikaziObrisiKursGUI() {
 		if (table.getSelectedRow() != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel) (table.getModel());
 			int row = table.getSelectedRow();
-			GUIKontroler.prikaziObrisiKursGUI(model, row);
+			GUIKontroler.prikaziObrisiKursGUI(row);
 		}
 	}
 	
 	private void prikaziIzvrsiZamenuGUI() {
 		if (table.getSelectedRow() != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
 			int row = table.getSelectedRow();
-			GUIKontroler.prikaziIzvrsiZamenuGUI(model, row);
+			GUIKontroler.prikaziIzvrsiZamenuGUI(row);
 		}
 	}
 
-	private JTable getTable() {
+	public JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setModel(new MenjacnicaTableModel());
 		}
 		return table;
 	}
+	
 }

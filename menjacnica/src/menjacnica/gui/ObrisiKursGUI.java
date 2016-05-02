@@ -43,12 +43,12 @@ public class ObrisiKursGUI extends JFrame {
 	private JLabel label;
 	
 	
-	private Valuta valuta;
+	private int valuta;
 
 	/**
 	 * Create the frame.
 	 */
-	public ObrisiKursGUI(Valuta valuta) {
+	public ObrisiKursGUI(int valuta) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ObrisiKursGUI.class.getResource("/icons/Screenshot.png")));
 		setResizable(false);
 		setTitle("Obrisi kurs");
