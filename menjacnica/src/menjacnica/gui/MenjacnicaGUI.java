@@ -176,15 +176,7 @@ public class MenjacnicaGUI extends JFrame {
 			mntmNew = new JMenuItem("Open");
 			mntmNew.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						GUIKontroler.ucitajIzFajla();
-					} catch (ClassNotFoundException | IOException e1) {
-						JOptionPane.showMessageDialog(contentPane, "Greska pri ucitavanju iz fajla",
-								"Greska", JOptionPane.ERROR_MESSAGE);
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(contentPane, "Doslo je do nepoznate greske pri ucitavanju",
-								"Greska", JOptionPane.ERROR_MESSAGE);
-					}
+					GUIKontroler.ucitajIzFajla();
 				}
 			});
 			mntmNew.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
@@ -197,18 +189,7 @@ public class MenjacnicaGUI extends JFrame {
 			mntmSave = new JMenuItem("Save");
 			mntmSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						GUIKontroler.sacuvajUFajl();
-					} catch (FileNotFoundException e1) {
-						JOptionPane.showMessageDialog(contentPane, "Fajl nije pronadjen", "Greska",
-								JOptionPane.ERROR_MESSAGE);
-					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(contentPane, "Greska pri upisivanju u fajl", "Greska",
-								JOptionPane.ERROR_MESSAGE);
-					} catch (Exception e1){
-						JOptionPane.showMessageDialog(contentPane, "Doslo je do nepoznate greske pri upisifanju u fajl",
-								"Greska", JOptionPane.ERROR_MESSAGE);
-					}
+					GUIKontroler.sacuvajUFajl();
 				}
 			});mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
 			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));

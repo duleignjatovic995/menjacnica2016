@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import menjacnica.Menjacnica;
@@ -19,6 +20,9 @@ public class GUIKontroler {
 
 	private static MenjacnicaGUI mainForm;
 	private static MenjacnicaInterface menjacnica;
+	private static ObrisiKursGUI obrisiKurs;
+	private static DodajKursGUI dodajKurs;
+	
 	
 	/**
 	 * Launch the application.
@@ -56,24 +60,44 @@ public class GUIKontroler {
 	 * Deo kontrolera za glavnu formu.
 	 */
 	
-	public static void sacuvajUFajl() throws FileNotFoundException, IOException {
+	public static void sacuvajUFajl(){
 		JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showSaveDialog(mainForm.getContentPane());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			menjacnica.sacuvajUFajl(file.getAbsolutePath());
+			try {
+				menjacnica.sacuvajUFajl(file.getAbsolutePath());
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(mainForm.getContentPane(), "Fajl nije pronadjen", "Greska",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(mainForm.getContentPane(), "Greska pri upisivanju u fajl", "Greska",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (Exception e1){
+				JOptionPane.showMessageDialog(mainForm.getContentPane(), "Doslo je do nepoznate greske pri upisifanju u fajl",
+						"Greska", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
-	public static void ucitajIzFajla() throws FileNotFoundException, ClassNotFoundException, IOException {
+	public static void ucitajIzFajla(){
 		JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showOpenDialog(mainForm.getContentPane());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			menjacnica.ucitajIzFajla(file.getAbsolutePath());
-			mainForm.prikaziSveValute();
+			try {
+				menjacnica.ucitajIzFajla(file.getAbsolutePath());
+				mainForm.prikaziSveValute();
+			} catch (ClassNotFoundException | IOException e) {
+				JOptionPane.showMessageDialog(mainForm.getContentPane(), "Greska pri ucitavanju iz fajla",
+						"Greska", JOptionPane.ERROR_MESSAGE);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(mainForm.getContentPane(), "Doslo je do nepoznate greske pri ucitavanju",
+						"Greska", JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}
 	}
 
@@ -82,15 +106,15 @@ public class GUIKontroler {
 	}
 
 	public static void prikaziDodajKursGUI() {
-		DodajKursGUI prozor = new DodajKursGUI();
-		prozor.setLocationRelativeTo(mainForm.getContentPane());
-		prozor.setVisible(true);
+		dodajKurs = new DodajKursGUI();
+		dodajKurs.setLocationRelativeTo(mainForm.getContentPane());
+		dodajKurs.setVisible(true);
 	}
 	
 	public static void prikaziObrisiKursGUI(MenjacnicaTableModel model, int row) {
-		ObrisiKursGUI prozor = new ObrisiKursGUI(model.vratiValutu(row));
-		prozor.setLocationRelativeTo(mainForm.getContentPane());
-		prozor.setVisible(true);
+		obrisiKurs = new ObrisiKursGUI(model.vratiValutu(row));
+		obrisiKurs.setLocationRelativeTo(mainForm.getContentPane());
+		obrisiKurs.setVisible(true);
 	}
 	
 	public static void prikaziIzvrsiZamenuGUI(MenjacnicaTableModel model, int row) {
@@ -99,15 +123,15 @@ public class GUIKontroler {
 		prozor.setVisible(true);
 	}
 	
-	public static void prikaziSveValute() {
-		mainForm.prikaziSveValute();		
-	}
+//	public static void prikaziSveValute() {
+//		mainForm.prikaziSveValute();		
+//	}
 	
 	/*
 	 * Deo kontrolera za formu DodajKursGUI
 	 */
 	public static void dodajValutu(String naziv, String skraceniNaziv, String sifra, String prodajni, String kupovni,
-			String srednji) throws Exception {
+			String srednji) {
 		Valuta valuta = new Valuta();
 		// Punjenje podataka o valuti
 		valuta.setNaziv(naziv);
@@ -116,9 +140,19 @@ public class GUIKontroler {
 		valuta.setProdajni(Double.parseDouble(prodajni));
 		valuta.setKupovni(Double.parseDouble(kupovni));
 		valuta.setSrednji(Double.parseDouble(srednji));
-		menjacnica.dodajValutu(valuta);
+		try {
+			menjacnica.dodajValutu(valuta);
+			mainForm.prikaziSveValute();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(dodajKurs.getContentPane(), e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 
+	
+	public static void prikaziGresku(JPanel parent, String errorMessage) {
+		JOptionPane.showMessageDialog(parent, errorMessage, "Greska", JOptionPane.ERROR_MESSAGE);
+	}
 
 	
 	
@@ -126,31 +160,38 @@ public class GUIKontroler {
 	 * Deo kontrolera za formu IzvrsiIzmenuGUI
 	 */
 	
-	public static double izvrsiTransakciju(Valuta valuta, boolean selected, String parseDouble) {		
-		return menjacnica.izvrsiTransakciju(valuta, selected, Double.parseDouble(parseDouble));
+	public static String izvrsiTransakciju(Valuta valuta, boolean selected, String parseDouble) {
+		double transakcija = menjacnica.izvrsiTransakciju(valuta, selected, Double.parseDouble(parseDouble));
+		return String.valueOf(transakcija);
 	}
 
 	/*
 	 * Deo kontrolera za formu ObrisiKursGUI
 	 */
 
-	public static void obrisiValutu(Valuta valuta) throws Exception {
-		menjacnica.obrisiValutu(valuta);		
+	public static void obrisiValutu(Valuta valuta) {
+		try {
+			menjacnica.obrisiValutu(valuta);
+			mainForm.prikaziSveValute();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(obrisiKurs.getContentPane(), e.getMessage(),
+					"Greska", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	/*
 	 * Ostatak
 	 */
-	public static double vratiProdajni(Valuta valuta){
-		return valuta.getProdajni();
+	public static String vratiProdajni(Valuta valuta){
+		return String.valueOf(valuta.getProdajni());
 	}
 	
-	public static double vratiKupovni(Valuta valuta){
-		return valuta.getKupovni();
+	public static String vratiKupovni(Valuta valuta){
+		return String.valueOf(valuta.getKupovni());
 	}
 	
-	public static double vratiSrednji(Valuta valuta){
-		return valuta.getSrednji();
+	public static String vratiSrednji(Valuta valuta){
+		return String.valueOf(valuta.getSrednji());
 	}
 	
 	public static String vratiSkraceni(Valuta valuta){
@@ -161,14 +202,14 @@ public class GUIKontroler {
 		return valuta.getNaziv();
 	}
 	
-	public static int vratiSifru(Valuta valuta){
-		return valuta.getSifra();
+	public static String vratiSifru(Valuta valuta){
+		return String.valueOf(valuta.getSifra());
 	}
 	
-	public static Valuta vratiValutu(int index){
-		MenjacnicaTableModel model = new MenjacnicaTableModel();
-		return model.vratiValutu(index);
-	}
+//	public static Valuta vratiValutu(int index){
+//		MenjacnicaTableModel model = new MenjacnicaTableModel();
+//		return model.vratiValutu(index);
+//	}
 
 	
 }

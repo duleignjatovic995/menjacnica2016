@@ -176,7 +176,8 @@ public class ObrisiKursGUI extends JFrame {
 			btnDodaj = new JButton("Obrisi");
 			btnDodaj.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					obrisiValutu();
+					GUIKontroler.obrisiValutu(valuta);
+					dispose();
 				}
 			});
 			btnDodaj.setEnabled(false);
@@ -219,21 +220,10 @@ public class ObrisiKursGUI extends JFrame {
 		// Prikaz podataka o valuti
 		textFieldNaziv.setText(GUIKontroler.vratiNaziv(valuta));
 		textFieldSkraceniNaziv.setText(GUIKontroler.vratiSkraceni(valuta));
-		textFieldSifra.setText(""+GUIKontroler.vratiSifru(valuta));
-		textFieldProdajniKurs.setText(""+GUIKontroler.vratiProdajni(valuta));
-		textFieldKupovniKurs.setText(""+GUIKontroler.vratiKupovni(valuta));
-		textFieldSrednjiKurs.setText(""+GUIKontroler.vratiNaziv(valuta));				
+		textFieldSifra.setText(GUIKontroler.vratiSifru(valuta));
+		textFieldProdajniKurs.setText(GUIKontroler.vratiProdajni(valuta));
+		textFieldKupovniKurs.setText(GUIKontroler.vratiKupovni(valuta));
+		textFieldSrednjiKurs.setText(GUIKontroler.vratiNaziv(valuta));				
 	}
 
-	private void obrisiValutu() {
-		try{
-			GUIKontroler.obrisiValutu(valuta);
-			
-			GUIKontroler.prikaziSveValute();
-			dispose();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
-					"Greska", JOptionPane.ERROR_MESSAGE);
-		}
-	}
 }
