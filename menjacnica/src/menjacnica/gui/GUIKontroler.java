@@ -22,6 +22,7 @@ public class GUIKontroler {
 	private static MenjacnicaInterface menjacnica;
 	private static ObrisiKursGUI obrisiKurs;
 	private static DodajKursGUI dodajKurs;
+	private static IzvrsiZamenuGUI izvrsiIzmenu;
 	
 	
 	/**
@@ -118,14 +119,11 @@ public class GUIKontroler {
 	}
 	
 	public static void prikaziIzvrsiZamenuGUI(MenjacnicaTableModel model, int row) {
-		IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(model.vratiValutu(row));
-		prozor.setLocationRelativeTo(mainForm.getContentPane());
-		prozor.setVisible(true);
+		izvrsiIzmenu = new IzvrsiZamenuGUI(model.vratiValutu(row));
+		izvrsiIzmenu.setLocationRelativeTo(mainForm.getContentPane());
+		izvrsiIzmenu.setVisible(true);
 	}
 	
-//	public static void prikaziSveValute() {
-//		mainForm.prikaziSveValute();		
-//	}
 	
 	/*
 	 * Deo kontrolera za formu DodajKursGUI
